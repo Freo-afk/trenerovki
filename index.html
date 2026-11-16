@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FitPlan Pro — План тренировок до весны</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Подключение библиотеки для графика веса -->
+    <script src="https://jsdelivr.net"></script>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>🔥 Трансформация к Весне Pro</h1>
+            <p>План тренировок, питание и трекинг: 16 ноября 2026 — 1 марта 2027</p>
+        </header>
+
+        <!-- Верхняя панель: Таймер, Калькулятор и Трекеры -->
+        <section class="dashboard-grid">
+
+            <!-- Встроенный таймер для планки и отдыха -->
+            <div class="card timer-card">
+                <h3>⏱️ Таймер (Планка / Отдых)</h3>
+                <div class="timer-display" id="timer-display">00:45</div>
+                <div class="timer-presets">
+                    <button class="preset-btn" onclick="setTimer(30)">30 сек</button>
+                    <button class="preset-btn" onclick="setTimer(45)">45 сек</button>
+                    <button class="preset-btn" onclick="setTimer(60)">1 мин</button>
+                    <button class="preset-btn" onclick="setTimer(120)">2 мин</button>
+                </div>
+                <div class="timer-controls">
+                    <button class="btn-success" onclick="startTimer()">Старт</button>
+                    <button class="btn-warning" onclick="pauseTimer()">Пауза</button>
+                    <button class="btn-secondary" onclick="resetTimer()">Сброс</button>
+                </div>
+            </div>
+
+            <!-- Калькулятор калорий и воды -->
+            <div class="card calc-card">
+                <h3>🥗 Норма калорий и воды</h3>
+                <div class="calc-inputs">
+                    <select id="calc-gender">
+                        <option value="male">Мужчина</option>
+                        <option value="female">Женщина</option>
+                    </select>
+                    <input type="number" id="calc-age" placeholder="Возраст" value="25">
+                    <input type="number" id="calc-height" placeholder="Рост (см)" value="175">
+                    <input type="number" id="calc-weight" placeholder="Вес (кг)" value="85">
+                </div>
+                <button style="width: 100%; margin-bottom: 10px;" onclick="calculateNorms()">Рассчитать норму</button>
+                <div class="calc-results" id="calc-results">
+                    Для похудения: <strong>~2050 ккал</strong> | Вода: <strong>2.5 л/день</strong>
+                </div>
+            </div>
+
+            <!-- Шагомер и Водный трекер -->
+            <div class="card">
+                <h3>👟 Шаги и 💧 Вода сегодня</h3>
+                <div class="mini-stat">
+                    <span>Шаги: <strong id="steps-display">0</strong> / 10 000</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="steps-bar"></div>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="steps-input" placeholder="Добавить шаги...">
+                        <button onclick="addSteps()">+</button>
+                    </div>
+                </div>
+                <div class="mini-stat" style="margin-top: 14px;">
+                    <span>Вода: <strong id="water-display">0.0</strong> / <span id="water-goal">2.5</span> л</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="water-bar" style="background: #38bdf8;"></div>
+                    </div>
+                    <div class="input-group">
+                        <button style="width: 50%;" onclick="addWater(0.25)">+250 мл</button>
+                        <button style="width: 50%;" onclick="addWater(0.5)">+500 мл</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Секция веса и графика -->
+        <section class="weight-section card">
+            <div class="weight-controls">
+                <h3>⚖️ Динамика похудения</h3>
+                <div class="tracker-value" id="weight-display">85.0 кг</div>
+                <p class="muted-text" id="weight-diff">Записывайте вес каждое воскресенье утром</p>
+                <div class="input-group" style="margin-top: 12px;">
+                    <input type="number" step="0.1" id="weight-input" placeholder="Новый вес (кг)...">
+                    <button onclick="updateWeight()">Записать</button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <p>Выполнено дней: <strong id="days-completed">0</strong> из <strong id="days-total">0</strong></p>
+                    <div class="progress-bar" style="margin-top: 6px;">
+                        <div class="progress-fill" id="days-bar"></div>
+                    </div>
+                </div>
+                <button class="btn-secondary" style="margin-top: 15px; width: 100%;" onclick="resetProgress()">Сбросить
+                    весь прогресс</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="weightChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Фильтры по месяцам -->
+        <div class="filters">
+            <button class="filter-btn active" onclick="filterMonth('all', this)">Все дни</button>
+            <button class="filter-btn" onclick="filterMonth(10, this)">Ноябрь 2026</button>
+            <button class="filter-btn" onclick="filterMonth(11, this)">Декабрь 2026</button>
+            <button class="filter-btn" onclick="filterMonth(0, this)">Январь 2027</button>
+            <button class="filter-btn" onclick="filterMonth(1, this)">Февраль 2027</button>
+        </div>
+
+        <!-- Сетка карточек тренировок -->
+        <main class="workouts-grid" id="workouts-container"></main>
+    </div>
+
+    <script src="trackers.js"></script>
+    <script src="workouts.js"></script>
+</body>
+
+</html>
